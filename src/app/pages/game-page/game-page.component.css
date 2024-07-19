@@ -1,0 +1,21 @@
+/* Style for the header to be full width */
+app-header {
+  display: block;
+  width: 100%;
+}
+
+/* Container for the map and game menu */
+.content {
+  display: flex;
+  height: 100%;
+}
+
+/* Style for the map to take approx 60% of the screen width */
+app-map {
+  flex: 0 0 70%;
+}
+
+/* Style for the game menu to take the remaining space */
+app-game-menu {
+  flex: 1;
+}

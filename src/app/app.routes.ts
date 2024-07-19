@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MapComponent } from './pages/map/map.component';
+import { GamePageComponent } from './pages/game-page/game-page.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: MapComponent,
+    component: GamePageComponent,
   },
   {
     path: '**',

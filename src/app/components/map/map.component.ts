@@ -25,8 +25,8 @@ export class MapComponent {
 
   createMap() {
     this._map = L.map('map', {
-      center: [46.9, 7.88],
-      zoom: 7,
+      center: [46.8, 8.2],
+      zoom: 8,
       layers: [this._mapDataService.citiwatts],
     });
 
@@ -40,11 +40,26 @@ export class MapComponent {
   }
 
   loadGeoJSON() {
-    this.http
-      .get('assets/geojson/switzerland_border.geojson')
-      .subscribe((geojson: any) => {
-        L.geoJSON(geojson).addTo(this._map);
-      });
+    // this.http
+    //   .get('assets/geojson/switzerland_border.geojson')
+    //   .subscribe((geojson: any) => {
+    //     L.geoJSON(geojson).addTo(this._map);
+    //   });
+
+    this.http.get('assets/geojson/NUTS.geojson').subscribe((geojson: any) => {
+      L.geoJSON(geojson, {
+        style: function (feature) {
+          return {
+            fillOpacity: 0,
+            color: 'black', // Border color
+            weight: 1, // Border weight
+          };
+        },
+        onEachFeature: function (feature, layer) {
+          layer.bindPopup('<h3>' + feature.properties.NUTS_NAME + '</h3>');
+        },
+      }).addTo(this._map);
+    });
   }
 
   // ngAfterViewChecked(): void {
