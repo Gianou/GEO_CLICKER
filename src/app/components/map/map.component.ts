@@ -15,8 +15,9 @@ export class MapComponent {
   constructor(
     private _mapDataService: MapDataService,
     private http: HttpClient
-  ) {}
+  ) { }
   private _map: any;
+  private _geojsonFileName = "NUTS_switzerland";
 
   ngOnInit() {
     this.createMap();
@@ -40,23 +41,23 @@ export class MapComponent {
   }
 
   loadGeoJSON() {
-    // this.http
-    //   .get('assets/geojson/switzerland_border.geojson')
-    //   .subscribe((geojson: any) => {
-    //     L.geoJSON(geojson).addTo(this._map);
-    //   });
 
-    this.http.get('assets/geojson/NUTS.geojson').subscribe((geojson: any) => {
-      L.geoJSON(geojson, {
-        style: function (feature) {
-          return {
-            fillOpacity: 0,
-            color: 'black', // Border color
-            weight: 1, // Border weight
-          };
+    this.http.get(`assets/geojson/${this._geojsonFileName}.geojson`).subscribe((geojson: any) => {
+      var myLayer = L.geoJSON(geojson, {
+        style: {
+          fillOpacity: 0,
+          color: 'blue', // Border color
+          weight: 1, // Border weight
         },
         onEachFeature: function (feature, layer) {
-          layer.bindPopup('<h3>' + feature.properties.NUTS_NAME + '</h3>');
+          layer.on('click', () => {
+            console.log(feature.properties.NUTS_NAME);
+            myLayer.setStyle({
+              fillOpacity: 0.1,
+              color: 'blue', // Border color
+              weight: 1, // Border weight
+            })
+          })
         },
       }).addTo(this._map);
     });

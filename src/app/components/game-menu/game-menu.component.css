@@ -1,9 +1,10 @@
-.game-menu-container {
+.app-game-menu {
   height: 100%;
+  background-color: #4f4f4f;
+  color:aliceblue;
+  text-align: center;
+  padding: 12px;
 
-  background-color: #f1f3f5;
 }
 
-h2 {
-  margin: 0;
-}
+

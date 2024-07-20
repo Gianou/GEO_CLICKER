@@ -1,5 +1,6 @@
-header {
-  background-color: #f8f9fa;
-  text-align: center;
-  border-bottom: 1px solid #dee2e6;
+.app-header {
+  background-color: #303030;
+  color:aliceblue;
+  text-align: start;
+  padding: 12px;
 }
