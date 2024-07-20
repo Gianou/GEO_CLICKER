@@ -27,6 +27,7 @@ export class MapComponent {
     this.loadGeoJSON();
   }
 
+
   createMap() {
     this._map = L.map('map', {
       center: [46.8, 8.2],
@@ -44,8 +45,8 @@ export class MapComponent {
   }
 
   updateStyles() {
-    this._geojsonLayer.setStyle((feature: { properties: { style: any; }; }) => {
-      return feature.properties.style;
+    this._geojsonLayer.setStyle((feature: { properties: { isSelected: boolean; }; }) => {
+      return feature.properties.isSelected ? this._selectedStyle : this._defaultStyle;
     });
   }
 
@@ -58,9 +59,6 @@ export class MapComponent {
         onEachFeature: (feature, layer) => {
           feature.properties.isSelected = false;
           layer.on('click', () => {
-            feature.properties.isSelected
-              ? feature.properties.style = this._defaultStyle
-              : feature.properties.style = this._selectedStyle;
             feature.properties.isSelected = !feature.properties.isSelected;
             this.updateStyles();
             console.log(feature.properties.NUTS_NAME + " selected : " + feature.properties.isSelected);
