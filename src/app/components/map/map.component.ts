@@ -18,6 +18,9 @@ export class MapComponent {
   ) { }
   private _map: any;
   private _geojsonFileName = "NUTS_switzerland";
+  private _geojsonLayer: any;
+  private _selectedStyle = { color: 'blue', weight: 2 };
+  private _defaultStyle = { color: 'grey', weight: 2, opacity: 0 };
 
   ngOnInit() {
     this.createMap();
@@ -40,23 +43,27 @@ export class MapComponent {
     //this._map.invalidateSize();
   }
 
-  loadGeoJSON() {
+  updateStyles() {
+    this._geojsonLayer.setStyle((feature: { properties: { style: any; }; }) => {
+      return feature.properties.style;
+    });
+  }
 
+  loadGeoJSON() {
     this.http.get(`assets/geojson/${this._geojsonFileName}.geojson`).subscribe((geojson: any) => {
-      var myLayer = L.geoJSON(geojson, {
-        style: {
-          fillOpacity: 0,
-          color: 'blue', // Border color
-          weight: 1, // Border weight
+      this._geojsonLayer = L.geoJSON(geojson, {
+        style: (feature) => {
+          return feature!.properties.style || this._defaultStyle; // Default style
         },
-        onEachFeature: function (feature, layer) {
+        onEachFeature: (feature, layer) => {
+          feature.properties.isSelected = false;
           layer.on('click', () => {
-            console.log(feature.properties.NUTS_NAME);
-            myLayer.setStyle({
-              fillOpacity: 0.1,
-              color: 'blue', // Border color
-              weight: 1, // Border weight
-            })
+            feature.properties.isSelected
+              ? feature.properties.style = this._defaultStyle
+              : feature.properties.style = this._selectedStyle;
+            feature.properties.isSelected = !feature.properties.isSelected;
+            this.updateStyles();
+            console.log(feature.properties.NUTS_NAME + " selected : " + feature.properties.isSelected);
           })
         },
       }).addTo(this._map);
