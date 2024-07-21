@@ -45,4 +45,8 @@ export class GameService {
     });
   }
 
+  unselectAllRegions() {
+    this.selectedRegions.set([]);
+  }
+
 }

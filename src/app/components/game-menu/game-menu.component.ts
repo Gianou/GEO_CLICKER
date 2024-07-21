@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { GameService } from '../../services/game.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-game-menu',
