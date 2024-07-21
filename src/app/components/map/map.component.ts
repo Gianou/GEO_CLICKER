@@ -57,6 +57,7 @@ export class MapComponent {
           return feature!.properties.style || this._defaultStyle; // Default style
         },
         onEachFeature: (feature, layer) => {
+          console.log(feature.properties.LEVL_CODE); // CH and bigger region are placed under the canton and are therefor not clickable
           feature.properties.isSelected = false;
           layer.on('click', () => {
             feature.properties.isSelected = !feature.properties.isSelected;
