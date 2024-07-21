@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GameService } from './services/game.service';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +10,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'GeoClicker';
-  //constructor(private _router: Router) {}
+  constructor(private gameService: GameService) { }
+  ngOnInit() {
+    this.gameService.loadGeoJSON();
+  }
 }

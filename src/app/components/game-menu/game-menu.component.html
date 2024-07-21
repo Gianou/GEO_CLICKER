@@ -1,8 +1,10 @@
 <div class="app-game-menu">
   <h2>Game Menu</h2>
   <p> All possible regions</p>
+  <button (click)="gameService.clearRegions()">Clear regions</button>
+  <button (click)="gameService.loadGeoJSON()">Load regions</button>
   <ul>
-    @for (region of regions; track region){
+    @for (region of gameService.regions; track region){
     <li>{{region}}</li>
     }
   </ul>
