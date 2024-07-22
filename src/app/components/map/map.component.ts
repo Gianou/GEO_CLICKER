@@ -1,7 +1,7 @@
 import { Component, effect } from '@angular/core';
 import * as L from 'leaflet';
-import { MapDataService } from '../../services/map-data.service';
 import { GameService } from '../../services/game.service';
+import { MapDataService } from '../../services/map-data.service';
 
 @Component({
   selector: 'app-map',
@@ -14,11 +14,20 @@ export class MapComponent {
   constructor(
     private _mapDataService: MapDataService,
     public gameService: GameService
-
   ) {
-    effect(() => { // Like a useEffect in React, is trigger anytime the signals read in it are changed
-      gameService.geoJson(); // Necessary to ensure the effect is only triggered on gameService.geoJson() change
-      this.drawLayerOnMap();
+    effect(() => {
+      // For some reason, is triggered on Unselect all change
+      // Like a useEffect in React, is trigger anytime the signals read in it are changed
+      // Used to redraw the geojson layer on the map when the geojson changes
+      gameService.geoJson(); // Necessary to ensure the effect is only triggered
+      // seems to be triggering the effect when selectedRegions() changes
+      this.drawLayerOnMap(); // because geojson() is read in drawLayerOnMap??
+      console.log('MapComponent effect from gameService.geoJson()');
+    });
+
+    effect(() => {
+      gameService.selectedRegions();
+      console.log('MapComponent effect from gameService.selectedRegions()');
     });
   }
   private _map: any;
@@ -45,10 +54,9 @@ export class MapComponent {
   }
 
   drawLayerOnMap() {
-    console.log("drawLayerOnMap called");
-    // remove the layer if the geoJson signal in gameService changes
-    if (this._geojsonRegionLayer) this._map.removeLayer(this._geojsonRegionLayer);
-
+    // remove the layer if it exists
+    if (this._geojsonRegionLayer)
+      this._map.removeLayer(this._geojsonRegionLayer);
     // add all features from the geoJson signal in gameService
     this._geojsonRegionLayer = L.geoJSON(this.gameService.geoJson(), {
       style: (feature) => {
@@ -61,7 +69,7 @@ export class MapComponent {
         layer.on('click', () => {
           const regionName = feature!.properties.NUTS_NAME;
           this.gameService.addOrRemoveFromSelectedRegions(regionName);
-        })
+        });
       },
     }).addTo(this._map);
   }
