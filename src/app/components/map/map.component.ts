@@ -1,7 +1,7 @@
 import { Component, effect } from '@angular/core';
 import * as L from 'leaflet';
 import { GameService } from '../../services/game.service';
-import { MapDataService } from '../../services/map-data.service';
+import { TILES_LAYERS, MAP_OPTIONS } from '../../constants/map.data';
 
 @Component({
   selector: 'app-map',
@@ -12,7 +12,6 @@ import { MapDataService } from '../../services/map-data.service';
 })
 export class MapComponent {
   constructor(
-    private _mapDataService: MapDataService,
     public gameService: GameService
   ) {
     effect(() => {
@@ -40,23 +39,19 @@ export class MapComponent {
   }
 
   createMap() {
-    this._map = L.map('map', {
-      center: [46.8, 8.2],
-      zoom: 8,
-      layers: [this._mapDataService.osm],
-    });
-
-    var overlayMaps = {};
+    this._map = L.map('map', MAP_OPTIONS);
 
     L.control
-      .layers(this._mapDataService.baseMaps, overlayMaps)
+      .layers(TILES_LAYERS)
       .addTo(this._map);
   }
 
   drawLayerOnMap() {
-    // remove the layer if it exists
-    if (this._geojsonRegionLayer)
+    //remove the layer if it exists
+    if (this._geojsonRegionLayer) {
       this._map.removeLayer(this._geojsonRegionLayer);
+    }
+
     // add all features from the geoJson signal in gameService
     this._geojsonRegionLayer = L.geoJSON(this.gameService.geoJson(), {
       style: (feature) => {
