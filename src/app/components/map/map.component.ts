@@ -43,7 +43,7 @@ export class MapComponent {
     this._map = L.map('map', {
       center: [46.8, 8.2],
       zoom: 8,
-      layers: [this._mapDataService.citiwatts],
+      layers: [this._mapDataService.osm],
     });
 
     var overlayMaps = {};
