@@ -62,22 +62,22 @@ export class GameService {
     this.loadGeoJSON();
   }
 
-  addOrRemoveFromSelectedRegions(region: { regionId: string, regionName: string }) {
+  addOrRemoveFromSelectedRegions(region: Region) {
     console.log(region);
     const currentRegions = this.selectedRegions();
 
-    if (currentRegions[region.regionId]) {
+    if (currentRegions[region.id]) {
       // Remove the region from the object
       console.log("Region in the object");
       this.selectedRegions.update(value => {
-        const { [region.regionId]: _, ...newValue } = value;
+        const { [region.id]: _, ...newValue } = value;
         return newValue;
       });
     } else {
       // Add the region to the object
       this.selectedRegions.update(value => ({
         ...value,
-        [region.regionId]: region
+        [region.id]: region
       }));
     }
   }

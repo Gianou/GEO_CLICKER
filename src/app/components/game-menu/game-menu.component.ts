@@ -1,6 +1,7 @@
 import { Component, effect } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { CommonModule } from '@angular/common';
+import { Region } from '../../models/region.model';
 
 @Component({
   selector: 'app-game-menu',
@@ -19,7 +20,7 @@ export class GameMenuComponent {
     });
   }
 
-  handleRegionClick(region: { regionId: string, regionName: string }) {
+  handleRegionClick(region: Region) {
     this.gameService.addOrRemoveFromSelectedRegions(region);
   }
 

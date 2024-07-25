@@ -1,4 +1,4 @@
 export type Region = {
-    regionId: string;
-    regionName: string;
+    id: string;
+    name: string;
 }

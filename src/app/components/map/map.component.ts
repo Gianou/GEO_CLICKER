@@ -57,10 +57,6 @@ export class MapComponent {
     )
   }
 
-
-
-
-
   drawLayerOnMap() {
     //remove the layer if it exists
     if (this._geojsonRegionLayer) {
@@ -73,13 +69,12 @@ export class MapComponent {
       onEachFeature: (feature, layer) => {
         const regionId = feature.id as string;
         const regionName = feature.properties.NUTS_NAME as string;
-        const region: { regionId: string, regionName: string } = { regionId: regionId, regionName: regionName };
+        const region: Region = { id: regionId, name: regionName };
         this._layerReferences[regionId] = layer;
-        console.log(this._layerReferences[regionId]);
         layer.on('click', () => {
           this.gameService.addOrRemoveFromSelectedRegions(region);
         });
       },
     }).addTo(this._map);
   }
-}
+}//
