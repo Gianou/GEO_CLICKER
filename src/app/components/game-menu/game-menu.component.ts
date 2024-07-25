@@ -14,10 +14,6 @@ export class GameMenuComponent {
   constructor(
     public gameService: GameService
   ) {
-    effect(() => {
-      this.gameService.selectedRegions();
-      console.log("gamemenu effect triggered");
-    });
   }
 
   handleRegionClick(region: Region) {

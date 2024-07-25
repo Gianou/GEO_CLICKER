@@ -21,7 +21,7 @@ export class MapComponent {
     });
 
     effect(() => {
-      this.updateLayerStyles();
+      this.updateRegionStyle(this.gameService.changedSelectedRegions());
     })
   }
   private _map: any;
@@ -42,19 +42,22 @@ export class MapComponent {
       .layers(TILES_LAYERS)
       .addTo(this._map);
   }
-  updateLayerStyles() {
-    const selectedRegions = this.gameService.selectedRegions();
-    Object.keys(this._layerReferences).forEach(key => {
-      const layer = this._layerReferences[key];
-      if (selectedRegions[key]) {
+
+  updateRegionStyle(regions: {
+    [regionId: string]: Region;
+  }) {
+    Object.keys(regions).forEach(regionId => {
+      const region = regions[regionId];
+      const selectedRegions = this.gameService.selectedRegions();
+      const layer = this._layerReferences[region.id];
+      if (selectedRegions[region.id]) {
         layer.setStyle(this._selectedStyle);
       }
       else {
         layer.setStyle(this._defaultStyle);
-
       }
-    }
-    )
+      console.log("Changed a region layer");
+    });
   }
 
   drawLayerOnMap() {
@@ -77,4 +80,4 @@ export class MapComponent {
       },
     }).addTo(this._map);
   }
-}//
+}

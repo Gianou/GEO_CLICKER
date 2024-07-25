@@ -20,6 +20,7 @@
     "@angular/router": "^17.0.0",
     "@types/geojson": "^7946.0.14",
     "leaflet": "^1.9.4",
+    "ngxtension": "^4.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"

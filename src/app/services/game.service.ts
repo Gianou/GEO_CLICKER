@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, Injectable, signal, WritableSignal } from '@angular/core';
 import { Region } from '../models/region.model';
+import { computedPrevious } from 'ngxtension/computed-previous';
 
 
 @Injectable({
@@ -12,9 +13,14 @@ export class GameService {
   private _geojsonFileName = 'NUTS_switzerland';
 
   // To automatically update UI
-  // public selectedRegions: WritableSignal<{ regionId: string, regionName: string }[]> = signal([]);
-  //public selectedRegions: WritableSignal<{ [regionId: string]: Region }> = signal({});
+  // All the selected Region
   public selectedRegions: WritableSignal<{ [regionId: string]: Region }> = signal({});
+  // The previous state of selectedRegions
+  public previousSelectedRegions = computedPrevious(this.selectedRegions);
+  // All the Regions whose selection state changed
+  public changedSelectedRegions = computed(() => {
+    return this.findUniqueEntries(this.selectedRegions(), this.previousSelectedRegions());
+  })
 
 
   // To automatically update UI
@@ -63,18 +69,14 @@ export class GameService {
   }
 
   addOrRemoveFromSelectedRegions(region: Region) {
-    console.log(region);
     const currentRegions = this.selectedRegions();
 
     if (currentRegions[region.id]) {
-      // Remove the region from the object
-      console.log("Region in the object");
       this.selectedRegions.update(value => {
         const { [region.id]: _, ...newValue } = value;
         return newValue;
       });
     } else {
-      // Add the region to the object
       this.selectedRegions.update(value => ({
         ...value,
         [region.id]: region
@@ -92,5 +94,26 @@ export class GameService {
 
   unselectAllRegions() {
     this.selectedRegions.set({});
+  }
+  findUniqueEntries(
+    oldRegions: { [regionId: string]: Region },
+    newRegions: { [regionId: string]: Region }
+  ): { [regionId: string]: Region } {
+    const oldKeys = Object.keys(oldRegions);
+    const newKeys = Object.keys(newRegions);
+
+    // Find unique keys (keys present in either of the objects but not in both)
+    const uniqueKeys = new Set<string>(
+      [...oldKeys, ...newKeys].filter(key => !(oldKeys.includes(key) && newKeys.includes(key)))
+    );
+
+    // Construct the result object containing entries with unique keys
+    const result = [...uniqueKeys].reduce((acc, key) => {
+      if (oldRegions[key]) acc[key] = oldRegions[key];
+      if (newRegions[key]) acc[key] = newRegions[key];
+      return acc;
+    }, {} as { [regionId: string]: Region });
+
+    return result;
   }
 }
