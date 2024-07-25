@@ -14,28 +14,22 @@ export class MapComponent {
   constructor(
     public gameService: GameService
   ) {
-    effect(() => {
-      // For some reason, is triggered on Unselect all change
-      // Like a useEffect in React, is trigger anytime the signals read in it are changed
-      // Used to redraw the geojson layer on the map when the geojson changes
-      gameService.geoJson(); // Necessary to ensure the effect is only triggered
-      // seems to be triggering the effect when selectedRegions() changes
-      this.drawLayerOnMap(); // because geojson() is read in drawLayerOnMap??
-      console.log('MapComponent effect from gameService.geoJson()');
-    });
 
     effect(() => {
-      gameService.selectedRegions();
-      console.log('MapComponent effect from gameService.selectedRegions()');
+      this.drawLayerOnMap(); // this.gameService.geojson
+      console.log(this.gameService.geoJson());
     });
   }
   private _map: any;
   private _geojsonRegionLayer: any;
+  private _layerReferences: { [key: string]: any } = {};
   private _selectedStyle = { color: 'blue', weight: 2 };
   private _defaultStyle = { color: 'grey', weight: 2, opacity: 0 };
+  private _testStyle ={ color: 'yellow', weight: 4 }
 
   ngOnInit() {
     this.createMap();
+    this.gameService.loadGeoJSON();
   }
 
   createMap() {
@@ -44,6 +38,10 @@ export class MapComponent {
     L.control
       .layers(TILES_LAYERS)
       .addTo(this._map);
+  }
+
+  updateLayerStyles(id:string){
+    this._layerReferences[id].setStyle(this._testStyle);
   }
 
   drawLayerOnMap() {
@@ -56,14 +54,20 @@ export class MapComponent {
     this._geojsonRegionLayer = L.geoJSON(this.gameService.geoJson(), {
       style: (feature) => {
         const regionName = feature!.properties.NUTS_NAME;
+        console.log(feature + "drawLayerOnMap");
+        return this._defaultStyle;
         return this.gameService.selectedRegions().includes(regionName)
           ? this._selectedStyle
           : this._defaultStyle;
       },
       onEachFeature: (feature, layer) => {
-        layer.on('click', () => {
+        const regionName = feature.id as string;
+        this._layerReferences[regionName] = layer;
+        layer.on('click', (itself) => {
           const regionName = feature!.properties.NUTS_NAME;
           this.gameService.addOrRemoveFromSelectedRegions(regionName);
+          console.log(this._layerReferences[feature.id as string]);
+          this.updateLayerStyles(feature.id as string);
         });
       },
     }).addTo(this._map);
