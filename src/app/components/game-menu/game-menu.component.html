@@ -8,11 +8,12 @@
     @for (region of gameService.regions(); track region){
     <li>
       <button (click)="handleRegionClick(region)">
-        @if(this.gameService.selectedRegions().includes(region)){
+        @if(this.gameService.selectedRegions()[region.regionId]){
         [
         }
         {{region.regionName}}
-        @if(this.gameService.selectedRegions().includes(region)){
+        @if(this.gameService.selectedRegions()[region.regionId]){
+
         ]
         }
       </button>

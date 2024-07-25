@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, Injectable, signal, WritableSignal } from '@angular/core';
+import { Region } from '../models/region.model';
+
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +12,10 @@ export class GameService {
   private _geojsonFileName = 'NUTS_switzerland';
 
   // To automatically update UI
-  public selectedRegions: WritableSignal<{regionId:string, regionName:string}[]> = signal([]);
+  // public selectedRegions: WritableSignal<{ regionId: string, regionName: string }[]> = signal([]);
+  //public selectedRegions: WritableSignal<{ [regionId: string]: Region }> = signal({});
+  public selectedRegions: WritableSignal<{ [regionId: string]: Region }> = signal({});
+
 
   // To automatically update UI
   public geoJson: any = signal({
@@ -57,16 +62,23 @@ export class GameService {
     this.loadGeoJSON();
   }
 
-  addOrRemoveFromSelectedRegions(region: {regionId:string, regionName:string}) {
+  addOrRemoveFromSelectedRegions(region: { regionId: string, regionName: string }) {
+    console.log(region);
     const currentRegions = this.selectedRegions();
 
-    // Check if the region is already in the array
-    if (currentRegions.some(r => r.regionId === region.regionId)) {
-      // Remove the region from the array
-      this.selectedRegions.update((value) => value.filter(r => r.regionId !== region.regionId));
+    if (currentRegions[region.regionId]) {
+      // Remove the region from the object
+      console.log("Region in the object");
+      this.selectedRegions.update(value => {
+        const { [region.regionId]: _, ...newValue } = value;
+        return newValue;
+      });
     } else {
-      // Add the region to the array
-      this.selectedRegions.update((value) => [...value, region]);
+      // Add the region to the object
+      this.selectedRegions.update(value => ({
+        ...value,
+        [region.regionId]: region
+      }));
     }
   }
 
@@ -79,6 +91,6 @@ export class GameService {
   }
 
   unselectAllRegions() {
-    this.selectedRegions.set([]);
+    this.selectedRegions.set({});
   }
 }

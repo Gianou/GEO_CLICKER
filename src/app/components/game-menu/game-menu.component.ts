@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { CommonModule } from '@angular/common';
 
@@ -12,9 +12,14 @@ import { CommonModule } from '@angular/common';
 export class GameMenuComponent {
   constructor(
     public gameService: GameService
-  ) { }
+  ) {
+    effect(() => {
+      this.gameService.selectedRegions();
+      console.log("gamemenu effect triggered");
+    });
+  }
 
-  handleRegionClick(region: {regionId:string, regionName:string}) {
+  handleRegionClick(region: { regionId: string, regionName: string }) {
     this.gameService.addOrRemoveFromSelectedRegions(region);
   }
 
