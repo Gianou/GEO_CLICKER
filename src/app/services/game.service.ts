@@ -98,7 +98,7 @@ export class GameService {
   findUniqueEntries(
     oldRegions: { [regionId: string]: Region },
     newRegions: { [regionId: string]: Region }
-  ): { [regionId: string]: Region } {
+  ): Set<string> {
     const oldKeys = Object.keys(oldRegions);
     const newKeys = Object.keys(newRegions);
 
@@ -107,13 +107,6 @@ export class GameService {
       [...oldKeys, ...newKeys].filter(key => !(oldKeys.includes(key) && newKeys.includes(key)))
     );
 
-    // Construct the result object containing entries with unique keys
-    const result = [...uniqueKeys].reduce((acc, key) => {
-      if (oldRegions[key]) acc[key] = oldRegions[key];
-      if (newRegions[key]) acc[key] = newRegions[key];
-      return acc;
-    }, {} as { [regionId: string]: Region });
-
-    return result;
+    return uniqueKeys;
   }
 }

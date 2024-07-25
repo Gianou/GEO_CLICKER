@@ -43,14 +43,11 @@ export class MapComponent {
       .addTo(this._map);
   }
 
-  updateRegionStyle(regions: {
-    [regionId: string]: Region;
-  }) {
-    Object.keys(regions).forEach(regionId => {
-      const region = regions[regionId];
+  updateRegionStyle(keys: Set<string>) {
+    keys.forEach(key => {
       const selectedRegions = this.gameService.selectedRegions();
-      const layer = this._layerReferences[region.id];
-      if (selectedRegions[region.id]) {
+      const layer = this._layerReferences[key];
+      if (selectedRegions[key]) {
         layer.setStyle(this._selectedStyle);
       }
       else {
