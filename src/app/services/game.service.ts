@@ -32,11 +32,11 @@ export class GameService {
       .map((feature: { id: string; properties: { NUTS_NAME: string } }) => {
         const regionId = feature.id as string;
         return {
-          regionId: regionId,
-          regionName: feature.properties.NUTS_NAME
+          id: regionId,
+          name: feature.properties.NUTS_NAME
         };
       })
-      .sort((a: { regionName: string; }, b: { regionName: any; }) => a.regionName.localeCompare(b.regionName));
+      .sort((a: Region, b: Region) => a.name.localeCompare(b.name));
   });
 
   loadGeoJSON() {
