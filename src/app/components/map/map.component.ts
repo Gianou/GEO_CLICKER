@@ -16,16 +16,18 @@ export class MapComponent {
   ) {
 
     effect(() => {
-      this.drawLayerOnMap(); // this.gameService.geojson
-      console.log(this.gameService.geoJson());
+      this.drawLayerOnMap();
     });
+
+    effect(()=>{
+      this.updateLayerStyles();
+    })
   }
   private _map: any;
   private _geojsonRegionLayer: any;
   private _layerReferences: { [key: string]: any } = {};
-  private _selectedStyle = { color: 'blue', weight: 2 };
-  private _defaultStyle = { color: 'grey', weight: 2, opacity: 0 };
-  private _testStyle ={ color: 'yellow', weight: 4 }
+  private _selectedStyle = { color: 'blue', weight: 2 , id:12};
+  private _defaultStyle = { color: 'grey', weight: 2, opacity: 0, id:13 };
 
   ngOnInit() {
     this.createMap();
@@ -39,9 +41,20 @@ export class MapComponent {
       .layers(TILES_LAYERS)
       .addTo(this._map);
   }
+  updateLayerStyles() {
+    //@todo improve to avoid looping 2 times
+    Object.values(this._layerReferences).forEach(layer => {
+      if (layer.setStyle) {
+        layer.setStyle(this._defaultStyle);
+      }
+    });
 
-  updateLayerStyles(id:string){
-    this._layerReferences[id].setStyle(this._testStyle);
+    this.gameService.selectedRegions().forEach(region => {
+      const layer = this._layerReferences[region.regionId];
+      if(this.gameService.selectedRegions().some(region => region.regionId === region.regionId)){
+        layer.setStyle(this._selectedStyle);
+      }
+    });
   }
 
   drawLayerOnMap() {
@@ -52,22 +65,14 @@ export class MapComponent {
 
     // add all features from the geoJson signal in gameService
     this._geojsonRegionLayer = L.geoJSON(this.gameService.geoJson(), {
-      style: (feature) => {
-        const regionName = feature!.properties.NUTS_NAME;
-        console.log(feature + "drawLayerOnMap");
-        return this._defaultStyle;
-        return this.gameService.selectedRegions().includes(regionName)
-          ? this._selectedStyle
-          : this._defaultStyle;
-      },
+      style: this._defaultStyle,
       onEachFeature: (feature, layer) => {
-        const regionName = feature.id as string;
-        this._layerReferences[regionName] = layer;
-        layer.on('click', (itself) => {
-          const regionName = feature!.properties.NUTS_NAME;
-          this.gameService.addOrRemoveFromSelectedRegions(regionName);
-          console.log(this._layerReferences[feature.id as string]);
-          this.updateLayerStyles(feature.id as string);
+        const regionId = feature.id as string;
+        const regionName = feature.properties.NUTS_NAME as string;
+        const region : {regionId:string, regionName:string} = {regionId:regionId, regionName:regionName};
+        this._layerReferences[regionId] = layer;
+        layer.on('click', () => {
+          this.gameService.addOrRemoveFromSelectedRegions(region);
         });
       },
     }).addTo(this._map);

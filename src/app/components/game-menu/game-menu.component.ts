@@ -14,8 +14,8 @@ export class GameMenuComponent {
     public gameService: GameService
   ) { }
 
-  handleRegionClick(regionName: string) {
-    this.gameService.addOrRemoveFromSelectedRegions(regionName);
+  handleRegionClick(region: {regionId:string, regionName:string}) {
+    this.gameService.addOrRemoveFromSelectedRegions(region);
   }
 
 }

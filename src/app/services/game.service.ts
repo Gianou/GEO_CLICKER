@@ -10,7 +10,7 @@ export class GameService {
   private _geojsonFileName = 'NUTS_switzerland';
 
   // To automatically update UI
-  public selectedRegions: WritableSignal<string[]> = signal([]);
+  public selectedRegions: WritableSignal<{regionId:string, regionName:string}[]> = signal([]);
 
   // To automatically update UI
   public geoJson: any = signal({
@@ -18,18 +18,20 @@ export class GameService {
     features: [],
   });
 
-  // To make an ordered list of all given LEVL_CODE
   public regions = computed(() => {
     return this.geoJson()
       .features.filter(
         (feature: { properties: { LEVL_CODE: number; NUTS_NAME: string } }) =>
           feature.properties.LEVL_CODE === 3
       )
-      .map(
-        (feature: { properties: { NUTS_NAME: string } }) =>
-          feature.properties.NUTS_NAME
-      )
-      .sort((a: string, b: string) => a.localeCompare(b));
+      .map((feature: { id: string; properties: { NUTS_NAME: string } }) => {
+        const regionId = feature.id as string;
+        return {
+          regionId: regionId,
+          regionName: feature.properties.NUTS_NAME
+        };
+      })
+      .sort((a: { regionName: string; }, b: { regionName: any; }) => a.regionName.localeCompare(b.regionName));
   });
 
   loadGeoJSON() {
@@ -55,16 +57,17 @@ export class GameService {
     this.loadGeoJSON();
   }
 
-  addOrRemoveFromSelectedRegions(regionName: string) {
-    //This could be improved with IDs
-    //Nuts have unique ID in feature.id
-    this.selectedRegions().includes(regionName)
-      ? this.selectedRegions.update((value) => {
-        return value.filter((region) => region !== regionName);
-      })
-      : this.selectedRegions.update((value) => {
-        return [...value, regionName];
-      });
+  addOrRemoveFromSelectedRegions(region: {regionId:string, regionName:string}) {
+    const currentRegions = this.selectedRegions();
+
+    // Check if the region is already in the array
+    if (currentRegions.some(r => r.regionId === region.regionId)) {
+      // Remove the region from the array
+      this.selectedRegions.update((value) => value.filter(r => r.regionId !== region.regionId));
+    } else {
+      // Add the region to the array
+      this.selectedRegions.update((value) => [...value, region]);
+    }
   }
 
   resetGameData() {
