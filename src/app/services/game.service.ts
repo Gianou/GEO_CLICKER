@@ -27,6 +27,9 @@ export class GameService {
     id: "",
     name: "No region"
   }
+  public responseStatus = "";
+  public incorrectGuessCounter = 0;
+  public totalIncorrectGuessCounter = 0;
 
   // To automatically update UI
   public geoJson: any = signal({
@@ -92,12 +95,15 @@ export class GameService {
   checkClickedAnswer(region: Region) {
     if (region.id === this.regionToFind.id) {
       this.addOrRemoveFromSelectedRegions(region);
-      this.regionsToFind.filter(r => r.id !== region.id);
-      this.regionToFind = this.regionToFind = this.regionsToFind[Math.floor(Math.random() * this.regionsToFind.length)];
-      alert("You found " + region.name + "!");
+      this.regionsToFind = this.regionsToFind.filter(r => r.id !== region.id); // debug
+      this.regionToFind = this.regionsToFind[Math.floor(Math.random() * this.regionsToFind.length)];
+      this.incorrectGuessCounter = 0;
+      this.responseStatus = "You found " + region.name + "!";
     }
     else {
-      alert("Incorrect, try again");
+      this.totalIncorrectGuessCounter++;
+      this.incorrectGuessCounter++;
+      this.responseStatus = "Incorrect guess number " + this.incorrectGuessCounter;
     }
 
   }
@@ -134,8 +140,9 @@ export class GameService {
       return;
     }
     this.regionsToFind = this.regions();
-    console.log("Copy regions computed");
     this.regionToFind = this.regionsToFind[Math.floor(Math.random() * this.regionsToFind.length)];
+    this.totalIncorrectGuessCounter = 0;
+    this.incorrectGuessCounter = 0;
   }
 
   handleAnswer() {

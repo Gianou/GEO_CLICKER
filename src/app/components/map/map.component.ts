@@ -28,7 +28,7 @@ export class MapComponent {
   private _geojsonRegionLayer: any;
   private _layerReferences: { [key: string]: any } = {};
   private _selectedStyle = { color: 'blue', fillOpacity: 0.4, weight: 2, opacity: 0.6, id: 12 };
-  private _defaultStyle = { color: 'grey', fillOpacity: 0.3, weight: 2, opacity: 0.4, id: 13 }; // Opacity for borders
+  private _defaultStyle = { color: 'grey', fillOpacity: 0.3, weight: 2, opacity: 0.6, id: 13 }; // Opacity for borders
 
   ngOnInit() {
     this.createMap();
