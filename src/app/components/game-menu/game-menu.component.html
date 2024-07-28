@@ -4,7 +4,12 @@
   <button (click)="gameService.loadGeoJSON()">Load regions</button>
   <button (click)="gameService.resetGameData()">Reset</button>
   <button (click)="gameService.unselectAllRegions()">Unselect all</button>
-  <ul>
+  <button (click)="gameService.startGame()">Start game</button>
+  <div>
+    <h2>Find : </h2>
+    <h3> {{gameService.regionToFind.name}} </h3>
+  </div>
+  <!-- <ul>
     @for (region of gameService.regions(); track region){
     <li>
       <button (click)="handleRegionClick(region)">
@@ -19,6 +24,6 @@
       </button>
     </li>
     }
-  </ul>
+  </ul> -->
 
 </div>

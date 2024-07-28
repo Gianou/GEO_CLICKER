@@ -14,7 +14,11 @@ export class GameMenuComponent {
   constructor(
     public gameService: GameService
   ) {
+    effect(() => {
+      this.gameService.startGame();
+    });
   }
+
 
   handleRegionClick(region: Region) {
     this.gameService.addOrRemoveFromSelectedRegions(region);

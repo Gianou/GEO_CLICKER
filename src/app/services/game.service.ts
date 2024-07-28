@@ -22,6 +22,11 @@ export class GameService {
     return this.findUniqueEntries(this.selectedRegions(), this.previousSelectedRegions());
   })
 
+  public regionsToFind: Region[] = [];
+  public regionToFind: Region = {
+    id: "",
+    name: "No region"
+  }
 
   // To automatically update UI
   public geoJson: any = signal({
@@ -84,6 +89,19 @@ export class GameService {
     }
   }
 
+  checkClickedAnswer(region: Region) {
+    if (region.id === this.regionToFind.id) {
+      this.addOrRemoveFromSelectedRegions(region);
+      this.regionsToFind.filter(r => r.id !== region.id);
+      this.regionToFind = this.regionToFind = this.regionsToFind[Math.floor(Math.random() * this.regionsToFind.length)];
+      alert("You found " + region.name + "!");
+    }
+    else {
+      alert("Incorrect, try again");
+    }
+
+  }
+
   resetGameData() {
     this.unselectAllRegions();
     this.geoJson.set({
@@ -95,6 +113,7 @@ export class GameService {
   unselectAllRegions() {
     this.selectedRegions.set({});
   }
+
   findUniqueEntries(
     oldRegions: { [regionId: string]: Region },
     newRegions: { [regionId: string]: Region }
@@ -108,5 +127,22 @@ export class GameService {
     );
 
     return uniqueKeys;
+  }
+
+  startGame() {
+    if (this.regions().length <= 0) {
+      return;
+    }
+    this.regionsToFind = this.regions();
+    console.log("Copy regions computed");
+    this.regionToFind = this.regionsToFind[Math.floor(Math.random() * this.regionsToFind.length)];
+  }
+
+  handleAnswer() {
+    // if correct
+    // set as correct and remove from list
+
+    // if not  correct
+    // say its not correct
   }
 }
