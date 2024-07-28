@@ -1,17 +1,15 @@
 <div class="app-game-menu">
   <h2>Game Menu</h2>
-  <p> Total Incorrect guesses : {{gameService.totalIncorrectGuessCounter}}</p>
-  <button (click)="gameService.loadGeoJSON()">Load regions</button>
-  <button (click)="gameService.resetGameData()">Reset</button>
-  <button (click)="gameService.unselectAllRegions()">Unselect all</button>
-  <button (click)="gameService.startGame()">Start game</button>
   <div>
-    <h2>Find : </h2>
-    <h3> {{gameService.regionToFind.name}} </h3>
+    <h2>Find : {{gameService.regionToFind.name}}</h2>
   </div>
-  <div>
-    {{gameService.responseStatus}}
-  </div>
+  <ul>
+    @for(guess of gameService.guesses; track guess){
+    <li>
+      {{guess.regionToFind.name}} {{guess.isCorrect}}
+    </li>
+    }
+  </ul>
   <!-- <ul>
     @for (region of gameService.regions(); track region){
     <li>

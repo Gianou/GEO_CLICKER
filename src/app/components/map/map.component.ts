@@ -73,8 +73,7 @@ export class MapComponent {
         const region: Region = { id: regionId, name: regionName };
         this._layerReferences[regionId] = layer;
         layer.on('click', () => {
-          //this.gameService.addOrRemoveFromSelectedRegions(region);
-          this.gameService.checkClickedAnswer(region);
+          this.gameService.handleAnswer(region);
         });
       },
     }).addTo(this._map);

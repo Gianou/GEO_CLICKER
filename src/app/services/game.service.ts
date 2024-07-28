@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { computed, Injectable, signal, WritableSignal } from '@angular/core';
 import { Region } from '../models/region.model';
 import { computedPrevious } from 'ngxtension/computed-previous';
+import { Guess } from '../models/guess.model';
 
 
 @Injectable({
@@ -27,9 +28,7 @@ export class GameService {
     id: "",
     name: "No region"
   }
-  public responseStatus = "";
-  public incorrectGuessCounter = 0;
-  public totalIncorrectGuessCounter = 0;
+  public guesses: Guess[] = [];
 
   // To automatically update UI
   public geoJson: any = signal({
@@ -92,22 +91,6 @@ export class GameService {
     }
   }
 
-  checkClickedAnswer(region: Region) {
-    if (region.id === this.regionToFind.id) {
-      this.addOrRemoveFromSelectedRegions(region);
-      this.regionsToFind = this.regionsToFind.filter(r => r.id !== region.id); // debug
-      this.regionToFind = this.regionsToFind[Math.floor(Math.random() * this.regionsToFind.length)];
-      this.incorrectGuessCounter = 0;
-      this.responseStatus = "You found " + region.name + "!";
-    }
-    else {
-      this.totalIncorrectGuessCounter++;
-      this.incorrectGuessCounter++;
-      this.responseStatus = "Incorrect guess number " + this.incorrectGuessCounter;
-    }
-
-  }
-
   resetGameData() {
     this.unselectAllRegions();
     this.geoJson.set({
@@ -141,15 +124,21 @@ export class GameService {
     }
     this.regionsToFind = this.regions();
     this.regionToFind = this.regionsToFind[Math.floor(Math.random() * this.regionsToFind.length)];
-    this.totalIncorrectGuessCounter = 0;
-    this.incorrectGuessCounter = 0;
+    this.guesses = [];
   }
 
-  handleAnswer() {
-    // if correct
-    // set as correct and remove from list
-
-    // if not  correct
-    // say its not correct
+  handleAnswer(region: Region) {
+    let guess: Guess = {
+      regionToFind: this.regionToFind,
+      guessedRegion: region,
+      isCorrect: region.id === this.regionToFind.id
+    }
+    if (guess.isCorrect) {
+      this.addOrRemoveFromSelectedRegions(region);
+      this.regionsToFind = this.regionsToFind.filter(r => r.id !== region.id);
+      this.regionToFind = this.regionsToFind[Math.floor(Math.random() * this.regionsToFind.length)];
+    }
+    this.guesses.unshift(guess);
+    console.log(guess);
   }
 }
