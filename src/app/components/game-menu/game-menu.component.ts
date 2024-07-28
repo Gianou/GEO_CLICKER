@@ -19,9 +19,4 @@ export class GameMenuComponent {
     });
   }
 
-
-  handleRegionClick(region: Region) {
-    this.gameService.addOrRemoveFromSelectedRegions(region);
-  }
-
 }

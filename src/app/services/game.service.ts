@@ -3,6 +3,7 @@ import { computed, Injectable, signal, WritableSignal } from '@angular/core';
 import { Region } from '../models/region.model';
 import { computedPrevious } from 'ngxtension/computed-previous';
 import { Guess } from '../models/guess.model';
+import { isEmpty } from 'rxjs';
 
 
 @Injectable({
@@ -13,22 +14,14 @@ export class GameService {
 
   private _geojsonFileName = 'NUTS_switzerland';
 
-  // To automatically update UI
-  // All the selected Region
-  public selectedRegions: WritableSignal<{ [regionId: string]: Region }> = signal({});
-  // The previous state of selectedRegions
-  public previousSelectedRegions = computedPrevious(this.selectedRegions);
-  // All the Regions whose selection state changed
-  public changedSelectedRegions = computed(() => {
-    return this.findUniqueEntries(this.selectedRegions(), this.previousSelectedRegions());
-  })
-
   public regionsToFind: Region[] = [];
   public regionToFind: Region = {
     id: "",
     name: "No region"
   }
   public guesses: Guess[] = [];
+  public guessedRegions: Region[] = [];
+  public wrongGuessedRegions: Region[] = [];
 
   // To automatically update UI
   public geoJson: any = signal({
@@ -75,47 +68,11 @@ export class GameService {
     this.loadGeoJSON();
   }
 
-  addOrRemoveFromSelectedRegions(region: Region) {
-    const currentRegions = this.selectedRegions();
-
-    if (currentRegions[region.id]) {
-      this.selectedRegions.update(value => {
-        const { [region.id]: _, ...newValue } = value;
-        return newValue;
-      });
-    } else {
-      this.selectedRegions.update(value => ({
-        ...value,
-        [region.id]: region
-      }));
-    }
-  }
-
   resetGameData() {
-    this.unselectAllRegions();
     this.geoJson.set({
       type: 'FeatureCollection',
       features: [],
     });
-  }
-
-  unselectAllRegions() {
-    this.selectedRegions.set({});
-  }
-
-  findUniqueEntries(
-    oldRegions: { [regionId: string]: Region },
-    newRegions: { [regionId: string]: Region }
-  ): Set<string> {
-    const oldKeys = Object.keys(oldRegions);
-    const newKeys = Object.keys(newRegions);
-
-    // Find unique keys (keys present in either of the objects but not in both)
-    const uniqueKeys = new Set<string>(
-      [...oldKeys, ...newKeys].filter(key => !(oldKeys.includes(key) && newKeys.includes(key)))
-    );
-
-    return uniqueKeys;
   }
 
   startGame() {
@@ -127,18 +84,26 @@ export class GameService {
     this.guesses = [];
   }
 
-  handleAnswer(region: Region) {
+  handleAnswer(region: Region): Guess {
     let guess: Guess = {
       regionToFind: this.regionToFind,
       guessedRegion: region,
       isCorrect: region.id === this.regionToFind.id
     }
+
     if (guess.isCorrect) {
-      this.addOrRemoveFromSelectedRegions(region);
       this.regionsToFind = this.regionsToFind.filter(r => r.id !== region.id);
-      this.regionToFind = this.regionsToFind[Math.floor(Math.random() * this.regionsToFind.length)];
+      if (this.regionsToFind.length <= 0) {
+        console.log("game is over");
+        this.regionToFind = { id: '0', name: "Game Completed" } as Region
+        console.log(this.regionToFind);
+      }
+      else {
+        this.regionToFind = this.regionsToFind[Math.floor(Math.random() * this.regionsToFind.length)];
+      }
     }
+
     this.guesses.unshift(guess);
-    console.log(guess);
+    return guess;
   }
 }

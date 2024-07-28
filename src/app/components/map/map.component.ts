@@ -3,6 +3,7 @@ import * as L from 'leaflet';
 import { GameService } from '../../services/game.service';
 import { TILES_LAYERS, MAP_OPTIONS } from '../../constants/map.data';
 import { Region } from '../../models/region.model';
+import { Guess } from '../../models/guess.model';
 
 @Component({
   selector: 'app-map',
@@ -19,16 +20,13 @@ export class MapComponent {
     effect(() => {
       this.drawLayerOnMap();
     });
-
-    effect(() => {
-      this.updateRegionStyle(this.gameService.changedSelectedRegions());
-    })
   }
   private _map: any;
   private _geojsonRegionLayer: any;
   private _layerReferences: { [key: string]: any } = {};
   private _selectedStyle = { color: 'blue', fillOpacity: 0.4, weight: 2, opacity: 0.6, id: 12 };
-  private _defaultStyle = { color: 'grey', fillOpacity: 0.3, weight: 2, opacity: 0.6, id: 13 }; // Opacity for borders
+  private _defaultStyle = { color: 'grey', fillOpacity: 0.3, weight: 2, opacity: 0.6, id: 13 };
+  private _wrongStyle = { color: 'red', fillOpacity: 0.3, weight: 2, opacity: 0.6, id: 13 };
 
   ngOnInit() {
     this.createMap();
@@ -42,20 +40,6 @@ export class MapComponent {
     L.control
       .layers(TILES_LAYERS)
       .addTo(this._map);
-  }
-
-  updateRegionStyle(keys: Set<string>) {
-    keys.forEach(key => {
-      const selectedRegions = this.gameService.selectedRegions();
-      const layer = this._layerReferences[key];
-      if (selectedRegions[key]) {
-        layer.setStyle(this._selectedStyle);
-      }
-      else {
-        layer.setStyle(this._defaultStyle);
-      }
-      console.log("Changed a region layer");
-    });
   }
 
   drawLayerOnMap() {
@@ -73,9 +57,33 @@ export class MapComponent {
         const region: Region = { id: regionId, name: regionName };
         this._layerReferences[regionId] = layer;
         layer.on('click', () => {
-          this.gameService.handleAnswer(region);
+          let guess = this.gameService.handleAnswer(region);
+          this.setRegionStyle(guess);
         });
       },
     }).addTo(this._map);
   }
+
+  setRegionStyle(guess: Guess) {
+    let layer = this._layerReferences[guess.guessedRegion.id]
+    if (guess.isCorrect) {
+      layer.setStyle(this._selectedStyle);
+      this.gameService.guessedRegions.push(guess.guessedRegion);
+      for (let region of this.gameService.wrongGuessedRegions) {
+        let layerToReset = this._layerReferences[region.id]
+        layerToReset.setStyle(this._defaultStyle);
+        layerToReset.on('click', () => {
+          let guess = this.gameService.handleAnswer(region);
+          this.setRegionStyle(guess);
+        });
+      }
+      this.gameService.wrongGuessedRegions = []
+    }
+    else {
+      layer.setStyle(this._wrongStyle);
+      this.gameService.wrongGuessedRegions.push(guess.guessedRegion);
+    }
+    layer.off('click');
+  }
+
 }
