@@ -18,3 +18,11 @@ li{
   border: 2px solid white;
 }
 
+.correct {
+  border-color: green;
+}
+
+.incorrect {
+  border-color: red;
+}
+
