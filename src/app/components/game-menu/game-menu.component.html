@@ -1,8 +1,16 @@
 <div class="app-game-menu">
   <h2>Game Menu</h2>
   <div>
-    <h2>Find : {{gameService.regionToFind.name}}</h2>
+    <h3> {{gameService.questionIndex()}} / {{gameService.numberOfQuestions}}</h3>
   </div>
+  @if(gameService.isGameOver()){
+  <h2> Game Completed!</h2>
+  <button (click)="gameService.restartGame()"> New Game</button>
+  }
+  @else{
+  <h2>Find : {{gameService.regionToFind.name}}</h2>
+  }
+
   <ul>
     @for(guess of gameService.guesses; track guess){
     <li>
@@ -10,21 +18,5 @@
     </li>
     }
   </ul>
-  <!-- <ul>
-    @for (region of gameService.regions(); track region){
-    <li>
-      <button (click)="handleRegionClick(region)">
-        @if(this.gameService.selectedRegions()[region.id]){
-        [
-        }
-        {{region.name}}
-        @if(this.gameService.selectedRegions()[region.id]){
-
-        ]
-        }
-      </button>
-    </li>
-    }
-  </ul> -->
 
 </div>

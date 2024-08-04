@@ -16,7 +16,8 @@ export class GameMenuComponent {
   ) {
     effect(() => {
       this.gameService.startGame();
-    });
+    }, { allowSignalWrites: true }
+    );
   }
 
 }

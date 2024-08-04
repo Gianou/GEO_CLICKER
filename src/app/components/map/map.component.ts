@@ -20,6 +20,14 @@ export class MapComponent {
     effect(() => {
       this.drawLayerOnMap();
     });
+
+    effect(() => {
+      if (this.gameService.isGameOver()) {
+        for (const layer of Object.values(this._layerReferences)) {
+          layer.off('click');
+        }
+      }
+    })
   }
   private _map: any;
   private _geojsonRegionLayer: any;

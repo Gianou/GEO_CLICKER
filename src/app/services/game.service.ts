@@ -19,6 +19,8 @@ export class GameService {
     id: "",
     name: "No region"
   }
+  public numberOfQuestions = 3;
+  public questionIndex = signal(0);
   public guesses: Guess[] = [];
   public guessedRegions: Region[] = [];
   public wrongGuessedRegions: Region[] = [];
@@ -45,6 +47,10 @@ export class GameService {
       .sort((a: Region, b: Region) => a.name.localeCompare(b.name));
   });
 
+  public isGameOver = computed(() => {
+    return this.questionIndex() >= this.numberOfQuestions;
+  })
+
   loadGeoJSON() {
     this.http
       .get(`assets/geojson/${this._geojsonFileName}.geojson`)
@@ -61,27 +67,31 @@ export class GameService {
       });
   }
 
-  toggleSwitzerlandOrEurope() {
-    this._geojsonFileName === 'NUTS_switzerland'
-      ? this._geojsonFileName = 'NUTS'
-      : this._geojsonFileName = 'NUTS_switzerland'
-    this.loadGeoJSON();
-  }
-
-  resetGameData() {
-    this.geoJson.set({
-      type: 'FeatureCollection',
-      features: [],
-    });
-  }
-
   startGame() {
+    // Error block
     if (this.regions().length <= 0) {
       return;
     }
-    this.regionsToFind = this.regions();
-    this.regionToFind = this.regionsToFind[Math.floor(Math.random() * this.regionsToFind.length)];
+    // Reset game data
+    this.regionsToFind = [];
     this.guesses = [];
+    this.regionsToFind = [];
+    this.questionIndex.set(0);
+
+    // Random set of regions
+    while (this.regionsToFind.length < this.numberOfQuestions) {
+      let regionToAdd = this.regions()[Math.floor(Math.random() * this.regions().length)];
+      if (!this.regionsToFind.includes(regionToAdd)) {
+        this.regionsToFind.push(regionToAdd);
+      }
+    }
+
+    // Select first question of Quizz
+    this.regionToFind = this.regionsToFind[Math.floor(Math.random() * this.regionsToFind.length)];
+  }
+
+  restartGame() {
+    this.loadGeoJSON(); // effect in game-menu auto start the game on json change
   }
 
   handleAnswer(region: Region): Guess {
@@ -92,6 +102,7 @@ export class GameService {
     }
 
     if (guess.isCorrect) {
+      this.questionIndex.update(value => value + 1);
       this.regionsToFind = this.regionsToFind.filter(r => r.id !== region.id);
       if (this.regionsToFind.length <= 0) {
         console.log("game is over");
@@ -105,5 +116,20 @@ export class GameService {
 
     this.guesses.unshift(guess);
     return guess;
+  }
+
+  // For debug or to be removed
+  resetGeoJsonData() {
+    this.geoJson.set({
+      type: 'FeatureCollection',
+      features: [],
+    });
+  }
+
+  toggleSwitzerlandOrEurope() {
+    this._geojsonFileName === 'NUTS_switzerland'
+      ? this._geojsonFileName = 'NUTS'
+      : this._geojsonFileName = 'NUTS_switzerland'
+    this.loadGeoJSON();
   }
 }
