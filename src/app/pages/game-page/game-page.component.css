@@ -1,21 +1,16 @@
-/* Style for the header to be full width */
-app-header {
-  display: block;
-  width: 100%;
-}
-
-/* Container for the map and game menu */
-.content {
+/* game-page.component.css */
+:host {
   display: flex;
-  height: 100%;
+  flex-direction: column;
+  height: 100vh;
 }
 
-/* Style for the map to take approx 60% of the screen width */
+header {
+  flex: 0 0 60px; 
+  z-index: 10;
+}
+
 app-map {
-  flex: 0 0 70%;
-}
-
-/* Style for the game menu to take the remaining space */
-app-game-menu {
   flex: 1;
+  overflow: hidden;
 }

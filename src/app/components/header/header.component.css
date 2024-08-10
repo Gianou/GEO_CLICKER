@@ -1,6 +1,4 @@
-.app-header {
-  background-color: #303030;
-  color:aliceblue;
-  text-align: start;
-  padding: 12px;
+:host{
+    color:aliceblue;
+    background-color: #303030;
 }
