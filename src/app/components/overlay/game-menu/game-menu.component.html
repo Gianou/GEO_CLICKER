@@ -1,0 +1,26 @@
+<div class="app-game-menu">
+  <h2>Game Menu</h2>
+  <div>
+    <h3> {{gameService.questionIndex()}} / {{gameService.numberOfQuestions}}</h3>
+  </div>
+  @if(gameService.isGameOver()){
+  <h2> Game Completed!</h2>
+  <button (click)="gameService.restartGame()"> New Game</button>
+  <div>
+    <p>Congratulations, you found {{gameService.numberOfQuestions}} regions in {{this.gameService.guesses.length}} tries
+      !</p>
+  </div>
+  }
+  @else{
+  <h2>Find : {{gameService.regionToFind.name}}</h2>
+  }
+
+  <ul>
+    @for(guess of gameService.guesses; track guess){
+    <li [ngClass]="{'correct': guess.isCorrect, 'incorrect': !guess.isCorrect}">
+      {{guess.regionToFind.name}} {{guess.isCorrect}}
+    </li>
+    }
+  </ul>
+
+</div>

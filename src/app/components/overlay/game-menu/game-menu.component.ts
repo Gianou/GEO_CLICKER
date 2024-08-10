@@ -1,7 +1,7 @@
 import { Component, effect } from '@angular/core';
-import { GameService } from '../../services/game.service';
+import { GameService } from '../../../services/game.service';
 import { CommonModule, NgClass } from '@angular/common';
-import { Region } from '../../models/region.model';
+import { Region } from '../../../models/region.model';
 
 @Component({
   selector: 'app-game-menu',
