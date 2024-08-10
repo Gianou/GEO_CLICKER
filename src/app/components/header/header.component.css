@@ -1,4 +1,15 @@
 :host{
     color:aliceblue;
     background-color: #303030;
+    background: linear-gradient(0deg, #303030 60%, #202020 60%);
+    background-size: auto 180px;
+    background-repeat: no-repeat;
+    background-position: 60% 20%; /* Adjust the gradient position */
+}
+
+h1{
+    padding: 12px;
+    margin: 0;
+    padding-left: 24px;
+    font-size: 48px;
 }
