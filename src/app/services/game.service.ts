@@ -4,6 +4,7 @@ import { Region } from '../models/region.model';
 import { computedPrevious } from 'ngxtension/computed-previous';
 import { Guess } from '../models/guess.model';
 import { isEmpty } from 'rxjs';
+import { GameState } from './gameState.enum';
 
 
 @Injectable({
@@ -13,6 +14,8 @@ export class GameService {
   constructor(private http: HttpClient) { }
 
   private _geojsonFileName = 'NUTS_switzerland';
+
+  public gameState = signal<GameState>(GameState.Setup);
 
   public regionsToFind: Region[] = [];
   public regionToFind: Region = {
@@ -72,6 +75,7 @@ export class GameService {
     if (this.regions().length <= 0) {
       return;
     }
+    this.loadGeoJSON();
     // Reset game data
     this.regionsToFind = [];
     this.guesses = [];
@@ -88,11 +92,12 @@ export class GameService {
 
     // Select first question of Quizz
     this.regionToFind = this.regionsToFind[Math.floor(Math.random() * this.regionsToFind.length)];
+    this.gameState.set(GameState.Ongoing);
   }
 
-  restartGame() {
-    this.loadGeoJSON(); // effect in game-menu auto start the game on json change
-  }
+  // restartGame() {
+  //   this.loadGeoJSON(); // effect in game-menu auto start the game on json change
+  // }
 
   handleAnswer(region: Region): Guess {
     let guess: Guess = {
@@ -115,6 +120,10 @@ export class GameService {
     }
 
     this.guesses.unshift(guess);
+
+    if (this.questionIndex() >= this.numberOfQuestions) {
+      this.gameState.set(GameState.Over);
+    }
     return guess;
   }
 

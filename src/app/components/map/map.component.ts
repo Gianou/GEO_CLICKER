@@ -32,9 +32,9 @@ export class MapComponent {
   private _map: any;
   private _geojsonRegionLayer: any;
   private _layerReferences: { [key: string]: any } = {};
-  private _selectedStyle = { color: 'blue', fillOpacity: 0.4, weight: 2, opacity: 0.6, id: 12 };
-  private _defaultStyle = { color: 'grey', fillOpacity: 0.3, weight: 2, opacity: 0.6, id: 13 };
-  private _wrongStyle = { color: 'red', fillOpacity: 0.3, weight: 2, opacity: 0.6, id: 13 };
+  private _selectedStyle = { fillColor: 'blue', fillOpacity: 0.4, weight: 3, opacity: 0.6, id: 12 };
+  private _defaultStyle = { color: '#202020', fillColor: 'grey', fillOpacity: 0.3, weight: 3, opacity: 0.6, id: 13 };
+  private _wrongStyle = { fillColor: 'red', fillOpacity: 0.3, weight: 3, opacity: 0.6, id: 13 };
 
   ngOnInit() {
     this.createMap();

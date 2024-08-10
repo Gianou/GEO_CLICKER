@@ -1,13 +1,2 @@
-@if(gameService.isGameOver()){
-<h2> Game Completed!</h2>
-<button (click)="gameService.restartGame()"> New Game</button>
-<div>
-    <p>Congratulations, you found {{gameService.numberOfQuestions}} regions in {{this.gameService.guesses.length}} tries
-        !</p>
-</div>
-}
-@else{
 <div class="find">Click</div>
 <div class="region">{{gameService.regionToFind.name}}</div>
-
-}

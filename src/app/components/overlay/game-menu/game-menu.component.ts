@@ -13,10 +13,10 @@ export class GameMenuComponent {
   constructor(
     public gameService: GameService
   ) {
-    effect(() => {
-      this.gameService.startGame();
-    }, { allowSignalWrites: true }
-    );
+    // effect(() => {
+    //   this.gameService.startGame();
+    // }, { allowSignalWrites: true }
+    // );
   }
 
 }

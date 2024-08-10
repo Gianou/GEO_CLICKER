@@ -1,2 +1,15 @@
+{{gameService.gameState()}}
+@if(gameService.gameState() == 'setup'){
+<app-game-start></app-game-start>
+}
+
+@if(gameService.gameState() == 'ongoing'){
 <app-game-menu class="game-menu"></app-game-menu>
 <app-find-prompt class="find-prompt"></app-find-prompt>
+}
+
+@if(gameService.gameState() == 'over'){
+<app-game-over></app-game-over>
+<app-game-menu class="game-menu"></app-game-menu>
+
+}
