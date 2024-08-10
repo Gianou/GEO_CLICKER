@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { GameMenuComponent } from '../../components/overlay/game-menu/game-menu.component';
 import { HeaderComponent } from '../../components/header/header.component';
+import { OverlayComponent } from '../../components/overlay/overlay.component';
 import { MapComponent } from '../../components/map/map.component';
 import { FindPromptComponent } from '../../components/overlay/find-prompt/find-prompt.component';
 
 @Component({
   selector: 'app-game-page',
   standalone: true,
-  imports: [HeaderComponent, MapComponent, GameMenuComponent, FindPromptComponent],
+  imports: [HeaderComponent, MapComponent, OverlayComponent],
   templateUrl: './game-page.component.html',
   styleUrl: './game-page.component.css',
 })

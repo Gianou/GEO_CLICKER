@@ -19,7 +19,7 @@ export class GameService {
     id: "",
     name: "No region"
   }
-  public numberOfQuestions = 3;
+  public numberOfQuestions = 5;
   public questionIndex = signal(0);
   public guesses: Guess[] = [];
   public guessedRegions: Region[] = [];

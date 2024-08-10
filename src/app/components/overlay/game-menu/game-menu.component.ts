@@ -1,12 +1,11 @@
 import { Component, effect } from '@angular/core';
 import { GameService } from '../../../services/game.service';
-import { CommonModule, NgClass } from '@angular/common';
-import { Region } from '../../../models/region.model';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-game-menu',
   standalone: true,
-  imports: [NgClass],
+  imports: [NgClass, GameMenuComponent],
   templateUrl: './game-menu.component.html',
   styleUrl: './game-menu.component.css'
 })
