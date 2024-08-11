@@ -1,11 +1,5 @@
 import L, { LatLngExpression } from 'leaflet';
 
-const OSM = L.tileLayer('https://tile.osm.ch/switzerland/{z}/{x}/{y}.png', {
-    maxZoom: 12,
-    attribution:
-        '&copy; <a href="https://wmts.geo.admin.ch/EPSG/3857/1.0.0/WMTSCapabilities.xml?lang=de">OpenStreetMap</a> contributors',
-});
-
 const SAT = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
     {
         maxZoom: 12,
@@ -14,7 +8,6 @@ const SAT = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Wo
 
 export const TILES_LAYERS = {
     Sat: SAT,
-    OpenStreetMap: OSM,
 };
 
 const CENTER: LatLngExpression = [46.8, 8.2];

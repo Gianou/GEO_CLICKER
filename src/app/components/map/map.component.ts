@@ -44,10 +44,6 @@ export class MapComponent {
   createMap() {
     this._map = L.map('map', MAP_OPTIONS);
     this._map.doubleClickZoom.disable();
-
-    L.control
-      .layers(TILES_LAYERS)
-      .addTo(this._map);
   }
 
   drawLayerOnMap() {
