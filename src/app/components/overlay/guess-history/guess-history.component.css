@@ -6,7 +6,7 @@
   bottom: 20px; /* Adjust as needed */
   right: 20px; /* Adjust as needed */
   padding: 20px; /* Adjust as needed */
-  background-color: rgba(0, 0, 0, 0.7); /* White background with 80% opacity */
+  /* background-color: rgba(0, 0, 0, 0.7);  */
   border-radius: 12px; /* Rounded corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
   z-index: 1000; /* Ensures the overlay is on top of other content */
@@ -29,9 +29,11 @@ li{
   list-style-type: none; /* Remove default bullet points */
   padding: 0;
   margin: 0;
+  height: 240px;
   display: flex;
-  justify-content: center; /* Center the cards */
+  justify-content: start; /* Center the cards */
   flex-direction: column;
+  overflow: auto;
 }
 
 .guess-card {
@@ -46,6 +48,7 @@ li{
   border: 1px solid #ccc; /* Light border for separation */
   width: 80px;
   height: 22px;
+  min-height: 22px;
   
   display: flex; /* Flexbox for centering text */
   align-items: center; /* Vertically center the text */
@@ -82,5 +85,17 @@ li{
 }
 
 .guess-card::-webkit-scrollbar-track {
+  background-color: transparent; /* Transparent scrollbar track */
+}
+
+.guess-list::-webkit-scrollbar {
+ width: 0;
+}
+.guess-list::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255,255, 0.5); /* Darker scrollbar thumb */
+  border-radius: 10px; /* Rounded scrollbar thumb */
+}
+
+.guess-list::-webkit-scrollbar-track {
   background-color: transparent; /* Transparent scrollbar track */
 }
