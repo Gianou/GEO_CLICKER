@@ -1,7 +1,6 @@
 :host {
   color:aliceblue;
   text-align: left;
-
   position: absolute; /* Allows the overlay to be positioned relative to its container */
   bottom: 20px;
   left: 20px; 

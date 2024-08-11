@@ -5,11 +5,11 @@
   left: 50%; 
   top: 50%;
   transform: translate(-50%, -50%);
-  padding: 20px; /* Adjust as needed */
-  background-color: rgba(0, 0, 0, 0.7); /* White background with 80% opacity */
-  border-radius: 12px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-  z-index: 1000; /* Ensures the overlay is on top of other content */
+  padding: 20px; 
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
   display: flex;
   flex-direction: column;
 }

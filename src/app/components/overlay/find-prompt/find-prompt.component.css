@@ -3,14 +3,14 @@
   text-align: center;
 
   position: absolute; /* Allows the overlay to be positioned relative to its container */
-  top: 100px; /* Adjust as needed */
+  top: 100px; 
   
   left: 50%; 
   transform: translate(-50%, 0%);
-  padding: 20px; /* Adjust as needed */
-  background-color: rgba(0, 0, 0, 0.7); /* White background with 80% opacity */
-  border-radius: 12px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  padding: 20px; 
+  background-color: rgba(0, 0, 0, 0.7); 
+  border-radius: 12px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
   z-index: 1000; /* Ensures the overlay is on top of other content */
   display: flex;
   flex-direction: row;

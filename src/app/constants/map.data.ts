@@ -1,13 +1,14 @@
 import L, { LatLngExpression } from 'leaflet';
 
 const OSM = L.tileLayer('https://tile.osm.ch/switzerland/{z}/{x}/{y}.png', {
-    maxZoom: 18,
+    maxZoom: 12,
     attribution:
         '&copy; <a href="https://wmts.geo.admin.ch/EPSG/3857/1.0.0/WMTSCapabilities.xml?lang=de">OpenStreetMap</a> contributors',
 });
 
 const SAT = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
     {
+        maxZoom: 12,
         attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
     });
 
@@ -20,6 +21,6 @@ const CENTER: LatLngExpression = [46.8, 8.2];
 
 export const MAP_OPTIONS = {
     center: CENTER,
-    zoom: 8,
+    zoom: 7,
     layers: [SAT],
 }

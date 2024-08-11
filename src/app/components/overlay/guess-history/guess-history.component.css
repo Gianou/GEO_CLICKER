@@ -1,15 +1,13 @@
 :host {
   color:aliceblue;
   text-align: center;
-
-  position: absolute; /* Allows the overlay to be positioned relative to its container */
-  bottom: 20px; /* Adjust as needed */
-  right: 20px; /* Adjust as needed */
-  padding: 20px; /* Adjust as needed */
-  /* background-color: rgba(0, 0, 0, 0.7);  */
-  border-radius: 12px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-  z-index: 1000; /* Ensures the overlay is on top of other content */
+  position: absolute; 
+  bottom: 20px; 
+  right: 20px; 
+  padding: 20px; 
+  border-radius: 12px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  z-index: 1000; 
 }
 
 ul{
@@ -26,12 +24,12 @@ li{
 }
 
 .guess-list {
-  list-style-type: none; /* Remove default bullet points */
+  list-style-type: none; 
   padding: 0;
   margin: 0;
   height: 240px;
   display: flex;
-  justify-content: start; /* Center the cards */
+  justify-content: start; 
   flex-direction: column;
   overflow: auto;
 }
@@ -39,63 +37,63 @@ li{
 .guess-card {
   padding: 15px 20px;
   margin: 10px 0;
-  border-radius: 10px; /* Rounded corners */
+  border-radius: 10px;
   color: white;
   font-weight: bold;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: left;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid #ccc; /* Light border for separation */
+  border: 1px solid #ccc; 
   width: 80px;
   height: 22px;
   min-height: 22px;
   
-  display: flex; /* Flexbox for centering text */
-  align-items: center; /* Vertically center the text */
-  justify-content: start; /* Horizontally center the text */
-   overflow-x: auto; /* Allow horizontal scrolling for overflow text */
+  display: flex; 
+  align-items: center;
+  justify-content: start; 
+   overflow-x: auto; 
   overflow-y: hidden;
-  text-overflow: ellipsis; /* Crop overflow text with an ellipsis (...) */
-  white-space: nowrap; /* Prevent text from wrapping to a new line */
+  text-overflow: ellipsis; 
+  white-space: nowrap; 
 }
 
 .correct {
-  background-color: #007bff; /* Blue background */
-  border-color: #0056b3; /* Darker blue border */
+  background-color: #007bff; 
+  border-color: #0056b3; 
 }
 
 .incorrect {
-  background-color: #dc3545; /* Red background */
-  border-color: #a71d2a; /* Darker red border */
+  background-color: #dc3545; 
+  border-color: #a71d2a; 
 }
 
 .guess-card:hover {
-  transform: translateY(-5px); /* Slight lift on hover */
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+  transform: translateY(-5px); 
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); 
 }
 
-/* Customize the scrollbar for WebKit browsers (e.g., Chrome, Safari) */
+
 .guess-card::-webkit-scrollbar {
-  height: 6px; /* Make the scrollbar thinner */
+  height: 6px; 
 }
 
 .guess-card::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.5); /* Darker scrollbar thumb */
-  border-radius: 10px; /* Rounded scrollbar thumb */
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px; 
 }
 
 .guess-card::-webkit-scrollbar-track {
-  background-color: transparent; /* Transparent scrollbar track */
+  background-color: transparent;
 }
 
 .guess-list::-webkit-scrollbar {
  width: 0;
 }
 .guess-list::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255,255, 0.5); /* Darker scrollbar thumb */
-  border-radius: 10px; /* Rounded scrollbar thumb */
+  background-color: rgba(255, 255,255, 0.5);
+  border-radius: 10px;
 }
 
 .guess-list::-webkit-scrollbar-track {
-  background-color: transparent; /* Transparent scrollbar track */
+  background-color: transparent;
 }

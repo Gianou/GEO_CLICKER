@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, Injectable, signal, WritableSignal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { Region } from '../models/region.model';
-import { computedPrevious } from 'ngxtension/computed-previous';
 import { Guess } from '../models/guess.model';
-import { isEmpty } from 'rxjs';
 import { GameState } from './gameState.enum';
 
 
@@ -95,9 +93,6 @@ export class GameService {
     this.gameState.set(GameState.Ongoing);
   }
 
-  // restartGame() {
-  //   this.loadGeoJSON(); // effect in game-menu auto start the game on json change
-  // }
 
   handleAnswer(region: Region): Guess {
     let guess: Guess = {
