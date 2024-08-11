@@ -11,7 +11,8 @@ import { GameState } from './gameState.enum';
 export class GameService {
   constructor(private http: HttpClient) { }
 
-  private _geojsonFileName = 'NUTS_switzerland';
+  private _geojsonFileName = 'NUTS';
+
 
   public gameState = signal<GameState>(GameState.Setup);
 
@@ -31,6 +32,24 @@ export class GameService {
     type: 'FeatureCollection',
     features: [],
   });
+
+  public countries = computed(() => {
+    // Check if the input is a valid GeoJSON object
+    if (this.geoJson().type !== 'FeatureCollection' || !Array.isArray(this.geoJson().features)) {
+      throw new Error('Invalid GeoJSON object');
+    }
+
+    // Extract NUTS_NAME from each feature where LEVL_CODE is 3
+    return this.geoJson().features
+      .filter((feature: { properties: { NUTS_NAME?: any; LEVL_CODE?: number; }; }) => {
+        return feature.properties && feature.properties.NUTS_NAME && feature.properties.LEVL_CODE === 0;
+      })
+      .map((feature: { properties: { NUTS_NAME: any; }; }) => {
+        return feature.properties.NUTS_NAME;
+      });
+  });
+
+  public selectedCountry = signal("");
 
   public regions = computed(() => {
     return this.geoJson()

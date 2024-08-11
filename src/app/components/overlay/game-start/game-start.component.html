@@ -8,5 +8,17 @@
         How many click will it take to find {{gameService.numberOfQuestions}} regions?
     </p>
 
+    <mat-form-field>
+        <mat-label>Favorite food</mat-label>
+        <mat-select (selectionChange)="onSelectCountry($event.value)" [value]="gameService.selectedCountry()">
+            @for(country of gameService.countries(); track country) {
+            <mat-option [value]="country">{{country}}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+    <p> Selected food: {{gameService.selectedCountry()}} </p>
+
+
+
     <button (click)="gameService.startGame()" class="modern-button"> Start Game</button>
 </div>
