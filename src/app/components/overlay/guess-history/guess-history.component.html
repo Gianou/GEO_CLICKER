@@ -1,0 +1,14 @@
+<ul class="guess-list">
+    @for(guess of gameService.guesses; track guess){
+    @if(guess.isCorrect){
+    <li class="guess-card correct">
+        ✔ {{guess.regionToFind.name}}
+    </li>
+    }
+    @else{
+    <li class="guess-card incorrect">
+        ✘ {{guess.guessedRegion.name}}
+    </li>
+    }
+    }
+</ul>

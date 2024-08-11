@@ -4,12 +4,13 @@ import { FindPromptComponent } from './find-prompt/find-prompt.component';
 import { GameStartComponent } from './game-start/game-start.component';
 import { GameOverComponent } from './game-over/game-over.component';
 import { GameService } from '../../services/game.service';
+import { GuessHistoryComponent } from './guess-history/guess-history.component';
 import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-overlay',
   standalone: true,
-  imports: [NgClass, GameMenuComponent, FindPromptComponent, GameStartComponent, GameOverComponent],
+  imports: [NgClass, GameMenuComponent, FindPromptComponent, GameStartComponent, GameOverComponent, GuessHistoryComponent],
   templateUrl: './overlay.component.html',
   styleUrl: './overlay.component.css'
 })

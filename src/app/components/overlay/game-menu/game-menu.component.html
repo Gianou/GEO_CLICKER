@@ -1,14 +1,8 @@
 <div>
-  <h2>Game Menu</h2>
-  <div>
-    <h3> {{gameService.questionIndex()}} / {{gameService.numberOfQuestions}}</h3>
-  </div>
-  <h2>Find : {{gameService.regionToFind.name}}</h2>
-  <ul>
-    @for(guess of gameService.guesses; track guess){
-    <li [ngClass]="{'correct': guess.isCorrect, 'incorrect': !guess.isCorrect}">
-      {{guess.regionToFind.name}} {{guess.isCorrect}}
-    </li>
-    }
-  </ul>
+  <h3>Game Menu</h3>
+  <p>Zone : Switzerland</p>
+  <p>Round : {{gameService.questionIndex()}} / {{gameService.numberOfQuestions}}</p>
+  <p>Difficulty : easy</p>
+  <p>Find : {{gameService.regionToFind.name}}</p>
+
 </div>

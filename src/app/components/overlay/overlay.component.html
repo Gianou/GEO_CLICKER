@@ -6,6 +6,7 @@
 @if(gameService.gameState() == 'ongoing'){
 <app-game-menu class="game-menu"></app-game-menu>
 <app-find-prompt class="find-prompt"></app-find-prompt>
+<app-guess-history></app-guess-history>
 }
 
 @if(gameService.gameState() == 'over'){
