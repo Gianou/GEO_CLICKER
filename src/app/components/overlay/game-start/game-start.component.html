@@ -9,14 +9,14 @@
     </p>
 
     <mat-form-field>
-        <mat-label>Favorite food</mat-label>
+        <mat-label>Choose a Country</mat-label>
         <mat-select (selectionChange)="onSelectCountry($event.value)" [value]="gameService.selectedCountry()">
-            @for(country of gameService.countries(); track country) {
-            <mat-option [value]="country">{{country}}</mat-option>
+            @for(country of gameService.countries(); track country.code) {
+            <mat-option [value]="country">{{country.name}}</mat-option>
             }
         </mat-select>
     </mat-form-field>
-    <p> Selected food: {{gameService.selectedCountry()}} </p>
+    <p> Selected country: {{gameService.selectedCountry().name}} </p>
 
 
 

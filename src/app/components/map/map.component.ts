@@ -18,6 +18,12 @@ export class MapComponent {
   ) {
 
     effect(() => {
+      this.gameService.regions();
+      this.drawLayerOnMap();
+      console.log("regions changed");
+    })
+
+    effect(() => {
       this.drawLayerOnMap();
     });
 
@@ -53,7 +59,7 @@ export class MapComponent {
     }
 
     // add all features from the geoJson signal in gameService
-    this._geojsonRegionLayer = L.geoJSON(this.gameService.geoJson(), {
+    this._geojsonRegionLayer = L.geoJSON(this.gameService.filteredGeoJson(), {
       style: this._defaultStyle,
       onEachFeature: (feature, layer) => {
         const regionId = feature.id as string;

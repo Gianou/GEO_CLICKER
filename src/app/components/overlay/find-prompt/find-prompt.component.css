@@ -16,16 +16,16 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
   z-index: 1000; /* Ensures the overlay is on top of other content */
   display: flex;
-  flex-direction: row;
+  padding: 40px;
 }
 
 .find{
-    font-size: 6.5vh;
+    font-size: 48px;
     padding-right: 20px;
     align-self: flex-start;
 }
 .region{
-    font-size: 6.5vh;
+    font-size: 48px;
     color:orange
 }
 

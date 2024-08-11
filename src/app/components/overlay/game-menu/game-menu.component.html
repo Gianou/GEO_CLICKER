@@ -1,6 +1,6 @@
 <div>
   <h3>Game Menu</h3>
-  <p>Zone : Switzerland</p>
+  <p>Zone : {{gameService.selectedCountry().name}}</p>
   <p>Round : {{gameService.questionIndex()}} / {{gameService.numberOfQuestions}}</p>
   <p>Difficulty : easy</p>
   <p>Find : {{gameService.regionToFind.name}}</p>

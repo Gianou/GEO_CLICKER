@@ -3,6 +3,7 @@ import { computed, Injectable, signal } from '@angular/core';
 import { Region } from '../models/region.model';
 import { Guess } from '../models/guess.model';
 import { GameState } from './gameState.enum';
+import { Country } from '../models/country';
 
 
 @Injectable({
@@ -27,35 +28,53 @@ export class GameService {
   public guessedRegions: Region[] = [];
   public wrongGuessedRegions: Region[] = [];
 
-  // To automatically update UI
   public geoJson: any = signal({
     type: 'FeatureCollection',
     features: [],
   });
 
-  public countries = computed(() => {
+  public filteredGeoJson: any = computed(() => {
+    // Filter the GeoJSON features to include only those with the desired country code
+    const filteredFeatures = this.geoJson().features.filter(
+      (feature: { properties: { CNTR_CODE?: string } }) =>
+        feature.properties.CNTR_CODE === this.selectedCountry().code
+    );
+
+    // Return the updated GeoJSON object with filtered features
+    return {
+      type: 'FeatureCollection',
+      features: filteredFeatures
+    };
+  }
+  );
+
+  public countries = computed<Country[]>(() => {
     // Check if the input is a valid GeoJSON object
     if (this.geoJson().type !== 'FeatureCollection' || !Array.isArray(this.geoJson().features)) {
       throw new Error('Invalid GeoJSON object');
     }
 
-    // Extract NUTS_NAME from each feature where LEVL_CODE is 3
+    // Extract country name and code from each feature where LEVL_CODE is 0
     return this.geoJson().features
-      .filter((feature: { properties: { NUTS_NAME?: any; LEVL_CODE?: number; }; }) => {
-        return feature.properties && feature.properties.NUTS_NAME && feature.properties.LEVL_CODE === 0;
+      .filter((feature: { properties: { NUTS_NAME?: any; LEVL_CODE?: number; CNTR_CODE?: string; }; }) => {
+        return feature.properties && feature.properties.NUTS_NAME && feature.properties.LEVL_CODE === 0 && feature.properties.CNTR_CODE;
       })
-      .map((feature: { properties: { NUTS_NAME: any; }; }) => {
-        return feature.properties.NUTS_NAME;
-      });
+      .map((feature: { properties: { NUTS_NAME: string; CNTR_CODE: string; }; }) => {
+        return {
+          name: feature.properties.NUTS_NAME,
+          code: feature.properties.CNTR_CODE
+        } as Country;
+      })
+      .sort((a: Country, b: Country) => a.name.localeCompare(b.name));
   });
 
-  public selectedCountry = signal("");
+  public selectedCountry = signal<Country>({ name: "", code: "" });
 
-  public regions = computed(() => {
-    return this.geoJson()
-      .features.filter(
-        (feature: { properties: { LEVL_CODE: number; NUTS_NAME: string } }) =>
-          feature.properties.LEVL_CODE === 3
+  public regions = computed<Region[]>(() => {
+    return this.geoJson().features
+      .filter(
+        (feature: { properties: { LEVL_CODE: number; NUTS_NAME: string; CNTR_CODE?: string } }) =>
+          feature.properties.LEVL_CODE === 3 && feature.properties.CNTR_CODE === this.selectedCountry().code
       )
       .map((feature: { id: string; properties: { NUTS_NAME: string } }) => {
         const regionId = feature.id as string;
