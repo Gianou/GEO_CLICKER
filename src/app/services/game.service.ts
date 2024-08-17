@@ -6,7 +6,6 @@ import { GameState } from './gameState.enum';
 import { Country } from '../models/country';
 import * as L from 'leaflet';
 import { Feature } from 'geojson';
-import { center } from "@turf/center";
 
 
 @Injectable({
@@ -90,11 +89,6 @@ export class GameService {
       .sort((a: Region, b: Region) => a.name.localeCompare(b.name));
   });
 
-  public selectedCountryCenterCoordinates = computed<L.LatLng>(() => {
-    console.log(center(this.selectedCountry().geometry));
-    return L.latLng(50.5, 30.5);
-  })
-
   public isGameOver = computed(() => {
     return this.questionIndex() >= this.numberOfQuestions;
   })
@@ -152,9 +146,7 @@ export class GameService {
       this.questionIndex.update(value => value + 1);
       this.regionsToFind = this.regionsToFind.filter(r => r.id !== region.id);
       if (this.regionsToFind.length <= 0) {
-        console.log("game is over");
         this.regionToFind = { id: '0', name: "Game Completed" } as Region
-        console.log(this.regionToFind);
       }
       else {
         this.regionToFind = this.regionsToFind[Math.floor(Math.random() * this.regionsToFind.length)];

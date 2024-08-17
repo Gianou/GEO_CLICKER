@@ -10,14 +10,14 @@ import { GameService } from '../../services/game.service';
 })
 export class HeaderComponent {
   constructor(public gameService: GameService) {
-    effect(() => {
-      gameService.geoJson();
-      console.log('dummy effect is triggered');
-    });
+    // effect(() => {
+    //   gameService.geoJson();
+    //   console.log('dummy effect is triggered');
+    // });
   }
 
-  signalTest() {
-    console.log('test');
-    this.gameService.geoJson.set(this.gameService.geoJson());
-  }
+  // signalTest() {
+  //   console.log('test');
+  //   this.gameService.geoJson.set(this.gameService.geoJson());
+  // }
 }

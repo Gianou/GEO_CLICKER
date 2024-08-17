@@ -12,13 +12,9 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class GameStartComponent {
   constructor(public gameService: GameService) {
-    effect(() => {
-      console.log(this.gameService.countries());
-    });
   }
 
   onSelectCountry(country: any) {
-    console.log(country);
     this.gameService.selectedCountry.set(country);
   }
 }

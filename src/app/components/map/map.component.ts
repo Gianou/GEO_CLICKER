@@ -4,6 +4,7 @@ import { GameService } from '../../services/game.service';
 import { TILES_LAYERS, MAP_OPTIONS } from '../../constants/map.data';
 import { Region } from '../../models/region.model';
 import { Guess } from '../../models/guess.model';
+import centroid from '@turf/centroid';
 
 @Component({
   selector: 'app-map',
@@ -34,6 +35,16 @@ export class MapComponent {
         }
       }
     })
+
+    effect(() => {
+      if (this.gameService.selectedCountry().geometry === "") {
+        return
+      }
+      const centerPoint = centroid(this.gameService.selectedCountry().geometry);
+      const coordinates = centerPoint.geometry.coordinates;
+      console.log(coordinates);
+      this._map.setView([coordinates[1], coordinates[0]], 7);
+    });
   }
   private _map: any;
   private _geojsonRegionLayer: any;
