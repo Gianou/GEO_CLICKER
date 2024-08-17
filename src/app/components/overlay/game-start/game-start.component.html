@@ -15,10 +15,6 @@
             <mat-option [value]="country">{{country.name}}</mat-option>
             }
         </mat-select>
-    </mat-form-field>
-    <p> Selected country: {{gameService.selectedCountry().name}} </p>
-
-
-
+    </mat-form-field> <br>
     <button (click)="gameService.startGame()" class="modern-button"> Start Game</button>
 </div>

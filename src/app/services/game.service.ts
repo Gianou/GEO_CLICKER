@@ -4,6 +4,9 @@ import { Region } from '../models/region.model';
 import { Guess } from '../models/guess.model';
 import { GameState } from './gameState.enum';
 import { Country } from '../models/country';
+import * as L from 'leaflet';
+import { Feature } from 'geojson';
+import { center } from "@turf/center";
 
 
 @Injectable({
@@ -54,21 +57,22 @@ export class GameService {
       throw new Error('Invalid GeoJSON object');
     }
 
-    // Extract country name and code from each feature where LEVL_CODE is 0
+    // Extract country name, code and geometry from each feature where LEVL_CODE is 0
     return this.geoJson().features
-      .filter((feature: { properties: { NUTS_NAME?: any; LEVL_CODE?: number; CNTR_CODE?: string; }; }) => {
-        return feature.properties && feature.properties.NUTS_NAME && feature.properties.LEVL_CODE === 0 && feature.properties.CNTR_CODE;
+      .filter((feature: Feature) => {
+        return feature.properties && feature.properties['NUTS_NAME'] && feature.properties['LEVL_CODE'] === 0 && feature.properties['CNTR_CODE'];
       })
-      .map((feature: { properties: { NUTS_NAME: string; CNTR_CODE: string; }; }) => {
+      .map((feature: Feature) => {
         return {
-          name: feature.properties.NUTS_NAME,
-          code: feature.properties.CNTR_CODE
+          name: feature.properties?.['NUTS_NAME'] ?? "error",
+          code: feature.properties?.['CNTR_CODE'] ?? "error",
+          geometry: feature.geometry
         } as Country;
       })
       .sort((a: Country, b: Country) => a.name.localeCompare(b.name));
   });
 
-  public selectedCountry = signal<Country>({ name: "", code: "" });
+  public selectedCountry = signal<Country>({ name: "", code: "", geometry: "" });
 
   public regions = computed<Region[]>(() => {
     return this.geoJson().features
@@ -85,6 +89,11 @@ export class GameService {
       })
       .sort((a: Region, b: Region) => a.name.localeCompare(b.name));
   });
+
+  public selectedCountryCenterCoordinates = computed<L.LatLng>(() => {
+    console.log(center(this.selectedCountry().geometry));
+    return L.latLng(50.5, 30.5);
+  })
 
   public isGameOver = computed(() => {
     return this.questionIndex() >= this.numberOfQuestions;
