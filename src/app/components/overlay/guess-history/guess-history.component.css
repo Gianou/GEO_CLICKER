@@ -47,7 +47,7 @@ li {
 
 .guess-card {
   padding: 15px 20px;
-  margin: 10px 0;
+  margin: 6px 0;
   border-radius: 10px;
   color: white;
   font-weight: bold;
@@ -55,8 +55,10 @@ li {
   text-align: left;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 1px solid #ccc;
-  width: 100px;
-  height: 22px;
+  width: 7vw;
+  min-width: 100px;
+/* 
+  height: 5vh; */
   min-height: 22px;
   
   display: flex; 
