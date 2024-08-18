@@ -1,11 +1,11 @@
-<h1> Game Completed!</h1>
+<h1> Game Completed</h1>
 <div>
-    <p>Congratulations, you found {{gameService.numberOfQuestions}} regions in {{this.gameService.guesses.length}}
+    <h2>Congratulations, you found {{gameService.numberOfQuestions}} regions in {{this.gameService.guesses.length}}
         clicks
         !
-    </p>
+    </h2>
     @if(gameService.numberOfQuestions == gameService.guesses.length){
-    <p>🎉 That's a perfect score! 🎉</p>
+    <h2>🎉 That's a perfect score! 🎉</h2>
     }
 
     <button (click)="gameService.startGame()" class="modern-button"> New Game</button>

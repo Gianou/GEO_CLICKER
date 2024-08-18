@@ -1,11 +1,12 @@
 :host {
+  
   color:aliceblue;
   text-align: center;
   position: absolute; /* Allows the overlay to be positioned relative to its container */
   left: 50%; 
   top: 50%;
   transform: translate(-50%, -50%);
-  padding: 20px; 
+  padding: 40px; 
   background-color: rgba(0, 0, 0, 0.7);
   border-radius: 12px; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
@@ -13,3 +14,8 @@
   display: flex;
   flex-direction: column;
 }
+
+h1{
+  font-size: 48px;
+}
+
