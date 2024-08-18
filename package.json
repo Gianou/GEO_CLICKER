@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build-docs": "rimraf docs && ng build --configuration production --output-path docs --base-href /GEO_CLICKER/ && xcopy /E /I /Y docs\\browser\\* docs\\ && rmdir /S /Q docs\\browser"
   },
   "private": true,
   "dependencies": {
