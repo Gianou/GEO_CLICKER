@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { GameService } from '../../../services/game.service';
+import { GameState } from '../../../services/gameState.enum';
 
 @Component({
   selector: 'app-game-over',
@@ -10,4 +11,7 @@ import { GameService } from '../../../services/game.service';
 })
 export class GameOverComponent {
   constructor(public gameService: GameService) { }
+  newGame() {
+    this.gameService.gameState.set(GameState.Setup);
+  }
 }

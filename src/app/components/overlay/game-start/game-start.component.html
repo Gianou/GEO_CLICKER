@@ -9,7 +9,12 @@
     </p>
 
     <mat-form-field>
+        @if(gameService.isACountrySelected()){
+        <mat-label>{{gameService.selectedCountry().name}}</mat-label>
+        }
+        @else{
         <mat-label>Choose a Country</mat-label>
+        }
         <mat-select (selectionChange)="onSelectCountry($event.value)" [value]="gameService.selectedCountry()">
             @for(country of gameService.countries(); track country.code) {
             <mat-option [value]="country">{{country.name}}</mat-option>
