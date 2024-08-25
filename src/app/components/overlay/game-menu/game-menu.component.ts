@@ -1,6 +1,7 @@
 import { Component, effect } from '@angular/core';
 import { GameService } from '../../../services/game.service';
 import { NgClass } from '@angular/common';
+import { DeviceService } from '../../../services/device.service';
 
 @Component({
   selector: 'app-game-menu',
@@ -11,7 +12,8 @@ import { NgClass } from '@angular/common';
 })
 export class GameMenuComponent {
   constructor(
-    public gameService: GameService
+    public gameService: GameService,
+    public deviceService: DeviceService
   ) {
   }
 

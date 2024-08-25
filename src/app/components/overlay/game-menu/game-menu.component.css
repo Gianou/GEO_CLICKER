@@ -4,8 +4,6 @@
   position: absolute; /* Allows the overlay to be positioned relative to its container */
   bottom: 20px;
   left: 20px; 
-  width: 180px;
-  /* height: 240px; */
   padding: 20px;
   background-color: rgba(0, 0, 0, 0.7);
   border-radius: 18px;
@@ -15,5 +13,11 @@
 
 p{
   padding-left: 24px;
+}
+
+.handset{
+  padding-left: 0px;
+  font-size: x-large;
+  margin: 0px;
 }
 

@@ -1,3 +1,8 @@
+@if(deviceService.isHandset()){
+<p class="handset">{{gameService.questionIndex()}} / {{gameService.numberOfQuestions}}</p>
+
+}
+@else{
 <div>
   <h3>Game Menu</h3>
   <p>Zone : {{gameService.selectedCountry().name}}</p>
@@ -6,3 +11,4 @@
   <p>Find : {{gameService.regionToFind.name}}</p>
 
 </div>
+}
