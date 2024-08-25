@@ -27,6 +27,10 @@ export class GameStartComponent {
       this.showToaster('No country selected, please select a country');
       return
     }
+    if (this.gameService.regions().length < this.gameService.numberOfQuestions) {
+      this.showToaster('There are not enough regions to play this country');
+      return;
+    }
     this.gameService.startGame();
   }
   private showToaster(message: string) {

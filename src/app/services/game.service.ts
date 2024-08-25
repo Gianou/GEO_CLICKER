@@ -118,7 +118,6 @@ export class GameService {
       return;
     }
     if (this.regions().length < this.numberOfQuestions) {
-      alert("Not enough regions in there");
       return;
     }
     this.loadGeoJSON();
