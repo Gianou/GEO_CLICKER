@@ -1,2 +1,2 @@
-<div class="find">Click</div>
-<div class="region">{{gameService.regionToFind.name}}</div>
+<div class="find" [ngClass]="{'handset':deviceService.isHandset()}">Click</div>
+<div class="region" [ngClass]="{'handset':deviceService.isHandset()}">{{gameService.regionToFind.name}}</div>
