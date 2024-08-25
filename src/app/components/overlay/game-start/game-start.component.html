@@ -16,5 +16,8 @@
             }
         </mat-select>
     </mat-form-field> <br>
-    <button (click)="gameService.startGame()" class="modern-button"> Start Game</button>
+
+    <button (click)="startGame()" class="modern-button" [ngClass]="{'disabled' : !gameService.isACountrySelected()}">
+        Start Game
+    </button>
 </div>

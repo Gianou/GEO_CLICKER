@@ -7,33 +7,36 @@ html, body {
 }
 
 .modern-button {
-            display: inline-block;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            text-transform: uppercase;
-            color: #ffffff;
-            /* background: linear-gradient(45deg, #1e90ff, #00bcd4); */
-            background-color: #1e90ff;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            text-align: center;
-            text-decoration: none;
-        }
+display: inline-block;
+padding: 12px 24px;
+font-size: 16px;
+font-weight: bold;
+text-transform: uppercase;
+color: #ffffff;
+/* background: linear-gradient(45deg, #1e90ff, #00bcd4); */
+background-color: #1e90ff;
+border: none;
+border-radius: 8px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+cursor: pointer;
+transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+text-align: center;
+text-decoration: none;
+}
 
-        .modern-button:hover {
-            /* background: linear-gradient(45deg, #00bcd4, #1e90ff); */
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        }
+.modern-button:hover {
+/* background: linear-gradient(45deg, #00bcd4, #1e90ff); */
+transform: translateY(-2px);
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
 
-        .modern-button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
+.modern-button:active {
+transform: translateY(0);
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.modern-button:disabled, .disabled {
+background-color: #ccc; 
+}
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 

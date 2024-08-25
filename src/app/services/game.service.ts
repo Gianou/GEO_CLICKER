@@ -72,6 +72,9 @@ export class GameService {
   });
 
   public selectedCountry = signal<Country>({ name: "", code: "", geometry: "" });
+  public isACountrySelected = computed<boolean>(() => {
+    return this.selectedCountry().code === "" ? false : true;
+  })
 
   public regions = computed<Region[]>(() => {
     return this.geoJson().features
